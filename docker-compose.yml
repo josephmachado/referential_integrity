@@ -1,0 +1,31 @@
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:18
+    environment:
+      POSTGRES_USER: dataengineer
+      POSTGRES_PASSWORD: datapipeline
+      POSTGRES_DB: ecommerce
+    volumes:
+      - ./pg_setup:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "dataengineer" ]
+      interval: 5s
+      retries: 5
+    restart: always
+    ports:
+      - "5432:5432"
+
+  ri-lab:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+    image: ri-lab
+    container_name: ri-lab
+    ports:
+      - "8888:8888"   # Jupyter Lab
+    volumes:
+      - ./notebooks:/app/notebooks
