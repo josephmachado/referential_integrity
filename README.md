@@ -30,7 +30,8 @@ sleep 30
 
 ## Start
 
-Open JupyterLab at <http://localhost:8888/> and follow the notebooks in order.
+Open JupyterLab at <http://localhost:8888/> and open the notebook <./notebooks/referential-integrity.ipynb>.
+
 
 ## Spin down
 
